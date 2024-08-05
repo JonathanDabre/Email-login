@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,7 +9,7 @@ import {
 
 import Login from "./components/login";
 import SignUp from "./components/register";
-
+import './index.css';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Profile from "./components/profile";
@@ -45,7 +44,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <div className="auth-wrapper">
+        <div className="auth-wrapper bg-[#ECF1F4] h-screen">
           <div className="auth-inner">
             <Routes>
               <Route

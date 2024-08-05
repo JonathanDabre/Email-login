@@ -51,41 +51,47 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h3>Login</h3>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-[400px] max-w-sm p-8 bg-white shadow-md rounded-xl">
+        <h3 className="text-2xl font-semibold mb-6 text-center">Login</h3>
+        <form onSubmit={handleSubmit} className="w-[100%]">
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-medium mb-2">Email address</label>
+            <input
+              type="email"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FD6B3C]"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-      <div className="mb-3">
-        <label>Email address</label>
-        <input
-          type="email"
-          className="form-control"
-          placeholder="Enter email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
+          <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-medium mb-2">Password</label>
+            <input
+              type="password"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FD6B3C]"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
 
-      <div className="mb-3">
-        <label>Password</label>
-        <input
-          type="password"
-          className="form-control"
-          placeholder="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
+          <div className="mb-6">
+            <button type="submit" className="w-full bg-[#FD6B3C] text-white p-3 rounded-md hover:bg-[#d65429] focus:outline-none focus:ring-2 focus:ring-[#FD6B3C]">
+              Submit
+            </button>
+          </div>
 
-      <div className="d-grid">
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
+          <p className="text-sm text-gray-600 text-center">
+            New user? <a href="/register" className="text-[#FD6B3C] hover:underline">Register Here</a>
+          </p>
+          <div className="mt-4 text-center">
+            <SignInwithGoogle />
+          </div>
+        </form>
       </div>
-      <p className="forgot-password text-right">
-        New user <a href="/register">Register Here</a>
-      </p>
-      <SignInwithGoogle />
-    </form>
+    </div>
   );
 }
 

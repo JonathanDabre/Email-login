@@ -36,38 +36,41 @@ const Profile = ({ isAdmin }) => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#ECF1F4] p-4">
       {userDetails ? (
         <>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <img
+          <div className="flex justify-center mb-4">
+            {/* <img
               src={userDetails.photo}
-              width={"40%"}
-              style={{ borderRadius: "50%" }}
-            />
+              className="w-40 h-40 rounded-full object-cover"
+              alt="profile-icon"
+            /> */}
           </div>
-          <h3>Welcome {userDetails.firstName} </h3>
-          <div>
-            <p>Email: {userDetails.email}</p>
-            <p>First Name: {userDetails.firstName}</p>
-            {/* <p>Last Name: {userDetails.lastName}</p> */}
+          <h3 className="text-2xl font-semibold mb-2">Welcome {userDetails.firstName} </h3>
+          <div className="bg-white shadow-lg rounded-lg p-6 mb-4 w-full max-w-md">
+            <p className="mb-2"><span className="font-medium">Email:</span> {userDetails.email}</p>
+            <p className="mb-2"><span className="font-medium">First Name:</span> {userDetails.firstName}</p>
+            {/* <p><span className="font-medium">Last Name:</span> {userDetails.lastName}</p> */}
           </div>
           {isAdmin && (
-            <div>
+            <div className="mb-4">
               <button 
-                className="btn btn-secondary" 
+                className="bg-blue-500 text-white py-2 px-4 rounded shadow hover:bg-blue-600"
                 onClick={() => navigate('/admin')} // Redirect to admin portal
               >
                 Go to Admin Portal
               </button>
             </div>
           )}
-          <button className="btn btn-primary" onClick={handleLogout}>
+          <button 
+            className="bg-red-500 text-white py-2 px-4 rounded shadow hover:bg-red-600"
+            onClick={handleLogout}
+          >
             Logout
           </button>
         </>
       ) : (
-        <p>Loading...</p>
+        <p className="text-lg">Loading...</p>
       )}
     </div>
   );

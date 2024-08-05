@@ -2,6 +2,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "./firebase";
 import { toast } from "react-toastify";
 import { setDoc, doc } from "firebase/firestore";
+import { AiFillGoogleCircle } from "react-icons/ai";
 
 function SignInwithGoogle() {
   function googleLogin() {
@@ -29,8 +30,11 @@ function SignInwithGoogle() {
       <div
         style={{ display: "flex", justifyContent: "center", cursor: "pointer" }}
         onClick={googleLogin}
-      >
-        <img src={require("../google.png")} width={"60%"} />
+      > <div className="flex space-x-3 bg-[#332D30] px-4 py-2 rounded-lg text-white font-semibold text-sm">
+
+          <div className="flex items-center text-xl"><AiFillGoogleCircle /></div>
+          <div className="">Sign in with Google</div>
+      </div>
       </div>
     </div>
   );
