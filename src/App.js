@@ -15,15 +15,33 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Profile from "./components/profile";
 import { useState } from "react";
-import { auth } from "./components/firebase";
+import { auth, db } from "./components/firebase";
+// ... other imports
+import { getDoc, doc } from "firebase/firestore";
+import AdminPortal from './components/AdminPortal';
 
 function App() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      setUser(user);
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        setUser(user);
+        const docRef = doc(db, 'Users', user.uid);
+        const docSnap = await getDoc(docRef);
+        console.log(docSnap.data().admin);
+        if (docSnap.exists()) {
+          setIsAdmin(docSnap.data().admin === true);
+        }
+      } else {
+        setUser(null);
+        setIsAdmin(false);
+      }
     });
-  });
+    return () => unsubscribe();
+  }, []);
+  
   return (
     <Router>
       <div className="App">
@@ -36,7 +54,8 @@ function App() {
               />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<SignUp />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile" element={<Profile isAdmin={isAdmin} />} />
+              {isAdmin && <Route path="/admin" element={<AdminPortal />} />}
             </Routes>
             <ToastContainer />
           </div>

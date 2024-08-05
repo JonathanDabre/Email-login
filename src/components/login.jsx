@@ -1,6 +1,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
+import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import SignInwithGoogle from "./signInWIthGoogle";
 
@@ -11,15 +12,38 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log("User logged in Successfully");
-      window.location.href = "/profile";
-      toast.success("User logged in Successfully", {
-        position: "top-center",
-      });
+      // Sign in with email and password
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Fetch user data from Firestore
+      const docRef = doc(db, "Users", user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+
+        if (userData.blacklisted) {
+          // User is blacklisted
+          toast.error("User exists but is not allowed to log in", {
+            position: "bottom-center",
+          });
+        } else {
+          // User is not blacklisted
+          console.log("User logged in Successfully");
+          window.location.href = "/profile";
+          toast.success("User logged in Successfully", {
+            position: "top-center",
+          });
+        }
+      } else {
+        // User document does not exist
+        toast.error("User does not exist", {
+          position: "bottom-center",
+        });
+      }
     } catch (error) {
       console.log(error.message);
-
       toast.error(error.message, {
         position: "bottom-center",
       });
@@ -60,7 +84,7 @@ function Login() {
       <p className="forgot-password text-right">
         New user <a href="/register">Register Here</a>
       </p>
-      <SignInwithGoogle/>
+      <SignInwithGoogle />
     </form>
   );
 }

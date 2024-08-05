@@ -15,27 +15,21 @@ function Register() {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       const user = auth.currentUser;
-      console.log(user);
       if (user) {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
           firstName: fname,
           lastName: lname,
-          photo:""
+          photo: "",
+          blacklisted: true, // default to blacklisted
         });
       }
-      console.log("User Registered Successfully!!");
-      toast.success("User Registered Successfully!!", {
-        position: "top-center",
-      });
+      toast.success("User Registered Successfully!!", { position: "top-center" });
     } catch (error) {
-      console.log(error.message);
-      toast.error(error.message, {
-        position: "bottom-center",
-      });
+      toast.error(error.message, { position: "bottom-center" });
     }
   };
-
+  
   return (
     <form onSubmit={handleRegister}>
       <h3>Sign Up</h3>
