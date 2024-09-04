@@ -4,7 +4,7 @@ import { collection, query, getDocs, updateDoc, doc } from 'firebase/firestore';
 
 function AdminPortal() {
   const [users, setUsers] = useState([]);
-  
+
   useEffect(() => {
     const fetchUsers = async () => {
       const q = query(collection(db, 'Users'));
@@ -15,7 +15,7 @@ function AdminPortal() {
 
     fetchUsers();
   }, []);
-  
+
   const handleBlacklistToggle = async (userId, isBlacklisted) => {
     const userRef = doc(db, 'Users', userId);
     await updateDoc(userRef, { blacklisted: !isBlacklisted });
@@ -29,20 +29,28 @@ function AdminPortal() {
         <table className="min-w-full text-sm bg-white rounded-xl shadow-sm border-gray-200">
           <thead>
             <tr className="text-left">
-              <th className="pt-4 pb-3 px-4 ">Email</th>
-              <th className="pt-4 pb-3 px-4 ">First Name</th>
-              <th className="pt-4 pb-3 px-4 ">Last Name</th>
-              <th className="pt-4 pb-3 px-4  text-center">Blacklisted</th>
-              <th className="pt-4 pb-3 px-4  text-center">Action</th>
+              <th className="pt-4 pb-3 px-4">Email</th>
+              <th className="pt-4 pb-3 px-4">First Name</th>
+              <th className="pt-4 pb-3 px-4">Last Name</th>
+              <th className="pt-4 pb-3 px-4 text-center">Blacklisted</th>
+              <th className="pt-4 pb-3 px-4 text-center">Terms & Conditions</th>
+              <th className="pt-4 pb-3 px-4 text-center">Action</th>
             </tr>
           </thead>
-          <tbody className='pt-2'>
+          <tbody className="pt-2">
             {users.map(user => (
               <tr key={user.id} className="hover:bg-gray-50">
                 <td className="py-[12px] px-4 border-t">{user.email}</td>
                 <td className="py-[12px] px-4 border-t">{user.firstName}</td>
                 <td className="py-[12px] px-4 border-t">{user.lastName}</td>
                 <td className="py-[12px] px-4 border-t text-center">{user.blacklisted ? 'Yes' : 'No'}</td>
+                <td className="py-[12px] px-4 border-t text-center">
+                  {user.termsAndConditions === true
+                    ? 'Agreed'
+                    : user.termsAndConditions === false
+                    ? 'Not Agreed'
+                    : '-'}
+                </td>
                 <td className="py-[12px] px-4 border-t">
                   <button
                     onClick={() => handleBlacklistToggle(user.id, user.blacklisted)}
@@ -55,8 +63,7 @@ function AdminPortal() {
                 </td>
               </tr>
             ))}
-            <tr className='h-2'></tr>
-
+            <tr className="h-2"></tr>
           </tbody>
         </table>
       </div>
