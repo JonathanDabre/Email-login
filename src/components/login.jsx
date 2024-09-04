@@ -78,7 +78,7 @@ function Login() {
           </div>
 
           <div className="mb-6">
-            <button type="submit" className="w-full bg-[#FD6B3C] text-white p-3 rounded-md hover:bg-[#d65429] focus:outline-none focus:ring-2 focus:ring-[#FD6B3C]">
+            <button type="submit" className="w-full bg-[#FD6B3C] hover:bg-[#d65429]  text-white p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FD6B3C]">
               Submit
             </button>
           </div>
