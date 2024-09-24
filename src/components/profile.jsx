@@ -79,7 +79,7 @@ const Profile = ({ isAdmin }) => {
             </p>
             <div className="flex flex-col items-center">
               {isAdmin && (
-                <div className="mb-6">
+                <div className="mb-6 w-full">
                   <button 
                     className="bg-[#FD6B3C] flex w-full justify-center text-white py-2 px-4 rounded-lg shadow hover:bg-[#d65429]"
                     onClick={() => navigate('/admin')} // Redirect to admin portal
