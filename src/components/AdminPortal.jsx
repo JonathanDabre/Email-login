@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { db } from './firebase';
 import { collection, query, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { useNavigate } from "react-router-dom"; 
+import { IoMdHome } from "react-icons/io";
+import { Slide, toast, ToastContainer } from 'react-toastify'; // Import toast and container
+import 'react-toastify/dist/ReactToastify.css'; // Import the toastify CSS
 
 function AdminPortal() {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -20,11 +25,32 @@ function AdminPortal() {
     const userRef = doc(db, 'Users', userId);
     await updateDoc(userRef, { blacklisted: !isBlacklisted });
     setUsers(users.map(user => user.id === userId ? { ...user, blacklisted: !isBlacklisted } : user));
+
+    // Show toast notification based on action
+    if (!isBlacklisted) {
+      toast.success('User has been blacklisted successfully!');
+    } else {
+      toast.info('User has been unblacklisted successfully!');
+    }
   };
 
   return (
     <div className="container mx-auto p-4 bg-[#ECF1F4]">
-      <h3 className="text-2xl font-bold mb-4">Admin Portal</h3>
+      {/* Toast Container for notifications */}
+      <ToastContainer position='top-center' autoClose={2000} hideProgressBar transition={Slide} theme='dark' />
+
+      <div className="text-2xl flex space-x-1 font-bold mb-4">
+        <div className='flex items-center'>
+          <button 
+            className="text-[#FD6B3C] rounded-lg text-3xl hover:text-[#d65429]"
+            onClick={() => navigate("/")} 
+          >
+            <IoMdHome />
+          </button>
+        </div>
+        <div>/Admin Portal</div>
+      </div>
+      
       <div className="overflow-x-auto">
         <table className="min-w-full text-sm bg-white rounded-xl shadow-sm border-gray-200">
           <thead>

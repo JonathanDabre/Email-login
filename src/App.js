@@ -44,7 +44,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <div className="auth-wrapper bg-[#ECF1F4] h-screen">
+        <div className="auth-wrapper bg-[#ECF1F4]">
           <div className="auth-inner">
             <Routes>
               <Route
